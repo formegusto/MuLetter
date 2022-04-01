@@ -6,13 +6,13 @@ function Letter() {
     <LetterBlock>
       <LetterBack />
 
-      <LetterPaper />
+      <LetterPaper className="letter-paper" />
 
-      <LetterFront>
+      <LetterFront className="letter-front">
         <img src={assets.Item.LetterFrontx3} alt="Letter Front" />
       </LetterFront>
 
-      <LetterLid>
+      <LetterLid className="letter-lid">
         <img src={assets.Item.LetterLidReversex3} alt="Letter Lid" />
       </LetterLid>
     </LetterBlock>
@@ -20,7 +20,8 @@ function Letter() {
 }
 
 const LetterBlock = styled.div`
-  position: relative;
+  position: sticky;
+  top: 345.74px;
   margin: 148px 0 96px;
 
   width: 740px;
@@ -42,10 +43,10 @@ const LetterBlock = styled.div`
 const LetterLid = styled.div`
   height: calc(493.33px / 2) !important;
 
-  transform: rotateX(180deg);
+  /* transform: rotateX(180deg); */
   transform-origin: 0% 0%;
 
-  z-index: 1;
+  /* z-index: 1; */
 
   & > img {
     filter: drop-shadow(0px 2px 1px rgba(55, 55, 55, 0.5));
@@ -58,7 +59,7 @@ const LetterFront = styled.div`
   position: relative;
   perspective: 500px;
 
-  z-index: 3;
+  /* z-index: 3; */
 
   & > img {
     filter: drop-shadow(-2px -2px 1px rgba(55, 55, 55, 0.5));
@@ -70,10 +71,10 @@ const LetterPaper = styled.div`
   width: 720px !important;
   background-color: #fff;
 
-  transform: translateY(-145px);
+  /* transform: translateY(-145px); */
 
   border-radius: 16px !important;
-  z-index: 2;
+  /* z-index: 2; */
 
   box-shadow: 0px 0px 4px rgba(55, 55, 55, 0.5);
 `;
