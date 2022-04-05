@@ -7,14 +7,19 @@
     "start": "nodemon --watch src -e ts --exec 'tsc && node dist'"
   },
   "dependencies": {
+    "axios": "^0.26.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "qs": "^6.10.3"
   },
   "devDependencies": {
+    "@types/axios": "^0.14.0",
     "@types/express": "^4.17.13",
     "@types/morgan": "^1.9.3",
+    "@types/node": "^17.0.23",
+    "@types/qs": "^6.9.7",
     "nodemon": "^2.0.15"
   }
 }
