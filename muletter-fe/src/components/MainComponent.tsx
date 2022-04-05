@@ -25,7 +25,6 @@ function MainComponent() {
         ".letter-paper"
       ) as HTMLDivElement;
 
-      console.log(scrollY);
       if (elLetterLid && elLetterFront && elLetterPaper) {
         if (scrollY <= scrollRate) {
           elLetterLid.style.transform =

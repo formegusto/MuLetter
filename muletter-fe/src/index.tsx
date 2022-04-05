@@ -1,16 +1,34 @@
 import { ChakraProvider, ColorModeScript } from "@chakra-ui/react";
-import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from "react-dom/client";
+import { Provider } from "react-redux";
+import { applyMiddleware, createStore } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import rootReducer from "./store";
 import theme from "./theme";
+import createSagaMW from "redux-saga";
+import RootSaga from "./store/saga";
+import { getToken } from "./store/auth/actions";
 
-ReactDOM.render(
-  <ChakraProvider theme={theme}>
-    <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-    <App />
-  </ChakraProvider>,
-  document.getElementById("root")
+const sagaMW = createSagaMW();
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(sagaMW))
+);
+sagaMW.run(RootSaga);
+
+store.dispatch(getToken());
+
+const container = document.getElementById("root");
+const root = createRoot(container!);
+root.render(
+  <Provider store={store}>
+    <ChakraProvider theme={theme}>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+      <App />
+    </ChakraProvider>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
