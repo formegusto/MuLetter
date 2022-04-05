@@ -1,10 +1,11 @@
 import { Document, Types } from "mongoose";
 
 export interface Track {
-  id: string;
+  track_id: string;
   name: string;
   artists: string;
   artist_name: string;
+  image: string;
 }
 
 export type Coord = {
