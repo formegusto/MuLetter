@@ -10,6 +10,7 @@ import theme from "./theme";
 import createSagaMW from "redux-saga";
 import RootSaga from "./store/saga";
 import { getToken } from "./store/auth/actions";
+import { BrowserRouter as Router } from "react-router-dom";
 
 const sagaMW = createSagaMW();
 const store = createStore(
@@ -25,8 +26,10 @@ const root = createRoot(container!);
 root.render(
   <Provider store={store}>
     <ChakraProvider theme={theme}>
-      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
-      <App />
+      <Router>
+        <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <App />
+      </Router>
     </ChakraProvider>
   </Provider>
 );

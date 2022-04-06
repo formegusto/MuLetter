@@ -21,7 +21,7 @@ function Letter() {
 
 const LetterBlock = styled.div`
   position: sticky;
-  top: 345.74px;
+  top: 386.74px;
   margin: 148px 0 96px;
 
   width: 740px;

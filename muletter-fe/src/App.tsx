@@ -1,15 +1,19 @@
-import Content from "./components/common/Content";
-// import Footer from "./components/common/Footer";
-import Header from "./components/common/Header";
+import { Route, Routes } from "react-router-dom";
+import RootPage from "./pages";
+import MailBoxPage from "./pages/MailBoxPage";
 import MainPage from "./pages/MainPage";
+import MapPage from "./pages/MapPage";
 
 function App() {
   return (
     <>
-      <Header />
-      <Content>
-        <MainPage />
-      </Content>
+      <Routes>
+        <Route path="/" element={<RootPage />}>
+          <Route index element={<MainPage />} />
+          <Route path="mailbox" element={<MailBoxPage />} />
+          <Route path="map" element={<MapPage />} />
+        </Route>
+      </Routes>
       {/* <Footer /> */}
     </>
   );

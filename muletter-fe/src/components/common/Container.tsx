@@ -7,3 +7,16 @@ export function ContainerMar80({ children }: React.PropsWithChildren<any>) {
     </Box>
   );
 }
+
+export function ContainerBG() {
+  return (
+    <Box
+      position="fixed"
+      top={0}
+      left={0}
+      width="100vw"
+      height="100vh"
+      background="rgba(51, 51, 51, 0.25)"
+    />
+  );
+}
