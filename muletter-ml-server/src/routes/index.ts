@@ -1,5 +1,5 @@
 import Express from "express";
-import { ChildProcess } from "child_process";
+import { spawn } from "child_process";
 import MailBoxModel from "../models/mailBox";
 
 class IndexRouter {
@@ -21,6 +21,15 @@ class IndexRouter {
 
           if (mailBox) {
             const _id = mailBox._id;
+
+            const writingProcess = spawn("python3", ["python", _id.toString()]);
+
+            writingProcess.stdout.on("data", (data) => {
+              console.log(`[ML Program Message] ${data.toString()}`);
+            });
+            writingProcess.stderr.on("data", (data) => {
+              console.log(`[ML Program Error Message] ${data.toString()}`);
+            });
 
             return res.status(200).json({
               message: `Thanks for letting me know. I'll write a letter for ${_id}`,
