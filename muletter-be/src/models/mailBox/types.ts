@@ -1,10 +1,10 @@
 import { Document, Types } from "mongoose";
 
 export interface Track {
-  track_id: string;
-  name: string;
-  artists: string;
-  artist_name: string;
+  trackId: string;
+  trackName: string;
+  artistIds: string;
+  artistNames: string;
   image: string;
 }
 
@@ -15,6 +15,9 @@ export type Coord = {
 
 export type MailBox = {
   title: string;
+  imagePath?: string;
   tracks: Track[];
   coord?: Coord;
+  createdAt: string;
+  updatedAt: string;
 };

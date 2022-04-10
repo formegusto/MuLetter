@@ -6,16 +6,21 @@ const coordSchema = new Schema<Coord>({
   y: { type: Number, required: true },
 });
 const trackSchema = new Schema<Track>({
-  track_id: { type: String, required: true },
-  name: { type: String, required: true },
+  trackId: { type: String, required: true },
+  trackName: { type: String, required: true },
+  artistIds: { type: String, required: true },
+  artistNames: { type: String, required: true },
   image: { type: String, required: true },
 });
 
-const schema = new Schema<any>(
+const schema = new Schema<MailBox>(
   {
     title: { type: String, required: true },
+    imagePath: { type: String, required: false },
     tracks: [trackSchema],
     coord: coordSchema,
+    createdAt: { type: String, required: true },
+    updatedAt: { type: String, required: true },
   },
   {
     collection: "MailBox",
