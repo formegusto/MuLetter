@@ -1,6 +1,7 @@
 import Express from "express";
 import morgan from "morgan";
 import dotenv from "dotenv";
+import routes from "./routes";
 
 dotenv.config();
 
@@ -17,9 +18,12 @@ class App {
 
   SetMW() {
     this.app.use(morgan("dev"));
+    this.app.use(Express.json());
   }
 
-  SetRoutes() {}
+  SetRoutes() {
+    this.app.use(routes);
+  }
 
   Start() {
     const port = process.env.PORT || "80";
