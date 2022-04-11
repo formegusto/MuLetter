@@ -23,6 +23,8 @@ class Recommender:
         spotify = Spotify(sel_tracks)
         spotify.get_genres
         spotify.get_features()
+        self.db.save_seed_zone(spotify.features)
+
         spotify.get_reco_tracks()
         spotify.get_features(target="reco")
 
