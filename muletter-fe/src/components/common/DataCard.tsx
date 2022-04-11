@@ -1,11 +1,14 @@
 import React from "react";
 import { Box, Text } from "@chakra-ui/react";
+import CountUp from "react-countup";
 
 type Props = {
-  text: string;
+  title: string;
+  preText: string;
+  quantity: number | null;
 };
 
-function DataCard({ text }: Props) {
+function DataCard({ title, quantity, preText }: Props) {
   const titleRef = React.useRef<HTMLDivElement>(null);
   const topLineRef = React.useRef<HTMLDivElement>(null);
 
@@ -27,6 +30,9 @@ function DataCard({ text }: Props) {
       borderTop="none"
       position="relative"
       color="#fff"
+      display="flex"
+      alignItems="center"
+      justifyContent="center"
     >
       <Text
         ref={titleRef}
@@ -36,7 +42,26 @@ function DataCard({ text }: Props) {
         left="10px"
         fontWeight="medium"
       >
-        {text}
+        {title}
+      </Text>
+      <Text
+        fontWeight={500}
+        fontSize="56px"
+        maxWidth="290px"
+        textAlign="center"
+      >
+        {quantity && (
+          <>
+            <CountUp
+              start={quantity * 0.25}
+              end={quantity}
+              duration={0.5}
+              separator=","
+              redraw
+            />
+            {`${preText}`}
+          </>
+        )}
       </Text>
       <Box
         ref={topLineRef}

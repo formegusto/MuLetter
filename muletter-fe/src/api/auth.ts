@@ -1,3 +1,5 @@
 import client from "./client";
 
-export const getToken = () => client.get("/auth/token");
+const BASEPATH = "/auth";
+
+export const getToken = () => client.get(`${BASEPATH}/token`);

@@ -1,12 +1,7 @@
-import { Box } from "@chakra-ui/react";
-import MainComponent from "../components/MainComponent";
+import MainContainer from "../containers/MainContainer";
 
 function MainPage() {
-  return (
-    <Box>
-      <MainComponent />
-    </Box>
-  );
+  return <MainContainer />;
 }
 
 export default MainPage;

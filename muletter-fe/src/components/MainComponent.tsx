@@ -4,7 +4,12 @@ import assets from "../assets";
 import DataCard from "./common/DataCard";
 import Letter from "./symbol/Letter";
 
-function MainComponent() {
+type Props = {
+  mailCount: number | null;
+  mailBoxCount: number | null;
+};
+
+function MainComponent({ mailCount, mailBoxCount }: Props) {
   React.useEffect(() => {
     window.addEventListener("scroll", () => {
       const allScroll = document.body.scrollHeight;
@@ -59,7 +64,7 @@ function MainComponent() {
         }}
       />
       <Text color="white" fontSize="28px" fontWeight="regular" marginTop="12px">
-        당신만을 위한 음악편지
+        오직 당신만을 위한 음악편지
       </Text>
       <Flex
         marginTop="72px"
@@ -69,8 +74,8 @@ function MainComponent() {
           },
         }}
       >
-        <DataCard text="작성 편지 수" />
-        <DataCard text="우체통 등록 수" />
+        <DataCard title="작성 편지 수" quantity={mailCount} preText="장" />
+        <DataCard title="우체통 등록 수" quantity={mailBoxCount} preText="개" />
       </Flex>
       <Letter />
     </Flex>
