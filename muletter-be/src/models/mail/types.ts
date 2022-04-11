@@ -1,3 +1,5 @@
+import { Types } from "mongoose";
+
 export type Track = {
   trackId: string;
   trackName: string;
@@ -6,16 +8,10 @@ export type Track = {
   image: string;
 };
 
-export type Coord = {
-  x: number;
-  y: number;
-};
-
-export type MailBox = {
-  title: string;
-  imagePath?: string;
+export type Mail = {
+  mailBoxId: Types.ObjectId;
   tracks: Track[];
-  coord?: Coord;
+  visualImage: string;
+  ecv: number;
   createdAt: string;
-  updatedAt: string;
 };

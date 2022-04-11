@@ -31,7 +31,7 @@ class MailBoxRouter {
       upload,
       async (req: Express.Request, res: Express.Response) => {
         try {
-          const imagePath = req.file && req.file.filename;
+          const imagePath = req.file && "/static/" + req.file.filename;
           let { title, tracks } = req.body;
           tracks = JSON.parse(tracks) as Track;
           const createdAt = moment(new Date()).format("YYYY-MM-DDTHH:mm:ss");
