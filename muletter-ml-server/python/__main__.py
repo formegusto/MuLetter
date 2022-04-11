@@ -11,3 +11,4 @@ if __name__ == "__main__":
     recommender.data_preprocessing()
     recommender.reco_kmeans()
     recommender.visual_filtering()
+    recommender.save()

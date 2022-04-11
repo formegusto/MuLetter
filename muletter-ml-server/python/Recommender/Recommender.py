@@ -77,3 +77,7 @@ class Recommender:
 
     def visual_filtering(self):
         visual_filtering(self)
+
+    def save(self):
+        res = self.db.save_mail(self)
+        print("[ML Program] Mail {} Save Okay :)".format(res.inserted_id))
