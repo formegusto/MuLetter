@@ -12,3 +12,4 @@ if __name__ == "__main__":
     recommender.reco_kmeans()
     recommender.visual_filtering()
     recommender.save()
+    recommender.end()

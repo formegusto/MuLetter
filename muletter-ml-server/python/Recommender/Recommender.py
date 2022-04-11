@@ -4,6 +4,8 @@ from KMeans import KMeans
 from DataPreprocessing import make_norm, music_filtering
 from Recommender.visual_filtering import visual_filtering
 import pandas as pd
+import json
+import requests as req
 
 
 class Recommender:
@@ -80,4 +82,15 @@ class Recommender:
 
     def save(self):
         res = self.db.save_mail(self)
-        print("[ML Program] Mail {} Save Okay :)".format(res.inserted_id))
+        self.mail_id = str(res.inserted_id)
+
+        print("[ML Program] Mail {} Save Okay :)".format(self.mail_id))
+
+    def end(self):
+        with open("env.json") as json_file:
+            json_data = json.load(json_file)
+
+        be_uri = json_data["BE_URI"]
+        req.get("{}/alert/success/{}".format(be_uri, self.mail_id))
+
+        del self
