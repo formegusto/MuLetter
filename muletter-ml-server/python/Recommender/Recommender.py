@@ -3,6 +3,7 @@ from Spotify import Spotify
 from KMeans import KMeans
 from DataPreprocessing import make_norm, music_filtering
 from Recommender.visual_filtering import visual_filtering
+from CoordGenerator import CoordGenerator
 import pandas as pd
 import json
 import requests as req
@@ -12,8 +13,10 @@ class Recommender:
     def __init__(self, _id):
         self.mail_box_id = _id
         self.db = DB()
+        self.coord_gen = CoordGenerator()
 
     def init_setting(self):
+        self.coord_gen.make_coords(self.mail_box_id)
         self.db.get_mailbox(_obj_id=self.mail_box_id)
 
         _sel_tracks = self.db.tracks
