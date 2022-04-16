@@ -11,6 +11,8 @@ import { ContainerMar16 } from "./common/Container";
 import { ContentTitle } from "./common/PageTitle";
 import assets from "../assets";
 import RegistMailBox from "./MailBox/RegistMailBox";
+import { MailBox, Track } from "../store/mailbox/types";
+import { useNavigate } from "react-router-dom";
 
 function MailBoxIcon() {
   return (
@@ -23,7 +25,11 @@ function MailBoxIcon() {
   );
 }
 
-function MailBoxTracks() {
+type TracksProps = {
+  tracks: Track[];
+};
+
+function MailBoxTracks({ tracks }: TracksProps) {
   return (
     <Box>
       <AvatarGroup
@@ -38,18 +44,21 @@ function MailBoxTracks() {
           },
         }}
       >
-        <Avatar size="xs" />
-        <Avatar size="xs" />
-        <Avatar size="xs" />
-        <Avatar size="xs" />
-        <Avatar size="xs" />
-        <Avatar size="xs" />
+        {tracks.map((tracks) => (
+          <Avatar key={tracks.trackId} src={tracks.image} size="xs" />
+        ))}
       </AvatarGroup>
     </Box>
   );
 }
 
-function MailBox() {
+type ItemProps = {
+  mailBox: MailBox;
+};
+
+function MailBoxItem({ mailBox }: ItemProps) {
+  const navigate = useNavigate();
+
   return (
     <AspectRatio
       width="calc(100% / 4 - 24px)"
@@ -59,6 +68,7 @@ function MailBox() {
       boxSizing="border-box"
       color="white"
       cursor="pointer"
+      onClick={() => navigate(`/mailbox/${mailBox._id}`)}
     >
       <Flex
         direction="column"
@@ -67,10 +77,16 @@ function MailBox() {
       >
         <AspectRatio width="calc(100% - 32px)" ratio={4 / 2.25}>
           <>
-            <Image alt="이미지" />
+            {mailBox.imagePath !== "" && (
+              <Image
+                alt="이미지"
+                src={`${process.env.REACT_APP_API_SERVER}${mailBox.imagePath}`}
+              />
+            )}
+
             <Box background="rgba(51, 51, 51, 0.3)" />
-            <Text fontSize="14px" fontWeight="semibold">
-              잔잔한 나의 우체통
+            <Text fontSize="18px" fontWeight="semibold">
+              {mailBox.title}
             </Text>
           </>
         </AspectRatio>
@@ -84,21 +100,26 @@ function MailBox() {
           flex={1}
         >
           <MailBoxIcon />
-          <MailBoxTracks />
+          <MailBoxTracks tracks={mailBox.tracks} />
         </Flex>
       </Flex>
     </AspectRatio>
   );
 }
 
-function MailBoxesComponent() {
+type Props = {
+  mailBoxes: MailBox[] | null;
+};
+
+function MailBoxesComponent({ mailBoxes }: Props) {
   return (
     <ContainerMar16 paddingBottom="160px">
       <ContentTitle>나의 우체통</ContentTitle>
       <Flex margin="32px 0 0" gap="32px" flexWrap="wrap">
-        {Array.from({ length: 16 }).map((val, idx) => (
-          <MailBox />
-        ))}
+        {mailBoxes &&
+          mailBoxes.map((mailBox) => (
+            <MailBoxItem key={mailBox._id} mailBox={mailBox} />
+          ))}
       </Flex>
       <RegistMailBox />
     </ContainerMar16>
