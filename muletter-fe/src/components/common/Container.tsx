@@ -14,8 +14,15 @@ export function ContainerMar32({ children }: React.PropsWithChildren<any>) {
 export function ContainerMar24({ children }: React.PropsWithChildren<any>) {
   return <Box margin="0 24px 0">{children}</Box>;
 }
-export function ContainerMar16({ children }: React.PropsWithChildren<any>) {
-  return <Box margin="0 16px 0">{children}</Box>;
+export function ContainerMar16({
+  children,
+  ...props
+}: React.PropsWithChildren<any>) {
+  return (
+    <Box margin="0 16px 0" {...props}>
+      {children}
+    </Box>
+  );
 }
 
 export function ContainerBG() {

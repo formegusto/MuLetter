@@ -10,6 +10,7 @@ import {
 import { ContainerMar16 } from "./common/Container";
 import { ContentTitle } from "./common/PageTitle";
 import assets from "../assets";
+import RegistMailBox from "./MailBox/RegistMailBox";
 
 function MailBoxIcon() {
   return (
@@ -57,6 +58,7 @@ function MailBox() {
       padding="16px"
       boxSizing="border-box"
       color="white"
+      cursor="pointer"
     >
       <Flex
         direction="column"
@@ -91,13 +93,14 @@ function MailBox() {
 
 function MailBoxesComponent() {
   return (
-    <ContainerMar16>
+    <ContainerMar16 paddingBottom="160px">
       <ContentTitle>나의 우체통</ContentTitle>
       <Flex margin="32px 0 0" gap="32px" flexWrap="wrap">
         {Array.from({ length: 16 }).map((val, idx) => (
           <MailBox />
         ))}
       </Flex>
+      <RegistMailBox />
     </ContainerMar16>
   );
 }

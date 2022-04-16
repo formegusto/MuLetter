@@ -11,6 +11,7 @@ import createSagaMW from "redux-saga";
 import RootSaga from "./store/saga";
 import { getToken } from "./store/auth/actions";
 import { BrowserRouter as Router } from "react-router-dom";
+import ScrollToTop from "./utils/ScrollToTop";
 
 const sagaMW = createSagaMW();
 const store = createStore(
@@ -27,6 +28,7 @@ root.render(
     <ChakraProvider theme={theme}>
       <Router>
         <ColorModeScript initialColorMode={theme.config.initialColorMode} />
+        <ScrollToTop />
         <App />
       </Router>
     </ChakraProvider>
