@@ -18,7 +18,6 @@ const store = createStore(
   composeWithDevTools(applyMiddleware(sagaMW))
 );
 sagaMW.run(RootSaga);
-
 store.dispatch(getToken());
 
 const container = document.getElementById("root");

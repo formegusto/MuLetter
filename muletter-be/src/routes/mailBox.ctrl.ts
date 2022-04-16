@@ -5,6 +5,7 @@ import moment from "moment-timezone";
 import { MailBox, Track } from "../models/mailBox/types";
 import MailBoxModel from "../models/mailBox";
 import axios from "axios";
+import MailModel from "../models/mail";
 
 const upload: Express.RequestHandler = multer({
   storage: multer.diskStorage({
@@ -26,6 +27,37 @@ class MailBoxRouter {
   }
 
   SetRoutes() {
+    this.router.get(
+      "/",
+      async (req: Express.Request, res: Express.Response) => {
+        const mailBox = await MailBoxModel.find({}).sort({ updatedAt: -1 });
+
+        return res.status(200).json({
+          mailBox,
+        });
+      }
+    );
+
+    this.router.get(
+      "/:id",
+      async (req: Express.Request, res: Express.Response) => {
+        const { id } = req.params;
+        const mailBox = await MailBoxModel.findOne({
+          _id: id,
+        });
+        let mail = await MailModel.find({
+          mailBoxId: id,
+        })
+          .sort({ createdAt: -1 })
+          .limit(1);
+
+        return res.status(200).json({
+          mailBox,
+          mail,
+        });
+      }
+    );
+
     this.router.post(
       "/",
       upload,
