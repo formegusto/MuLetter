@@ -1,4 +1,5 @@
 import { Box } from "@chakra-ui/react";
+import React from "react";
 
 export function ContainerMar80({ children }: React.PropsWithChildren<any>) {
   return (
@@ -6,6 +7,15 @@ export function ContainerMar80({ children }: React.PropsWithChildren<any>) {
       {children}
     </Box>
   );
+}
+export function ContainerMar32({ children }: React.PropsWithChildren<any>) {
+  return <Box margin="0 32px 0">{children}</Box>;
+}
+export function ContainerMar24({ children }: React.PropsWithChildren<any>) {
+  return <Box margin="0 24px 0">{children}</Box>;
+}
+export function ContainerMar16({ children }: React.PropsWithChildren<any>) {
+  return <Box margin="0 16px 0">{children}</Box>;
 }
 
 export function ContainerBG() {

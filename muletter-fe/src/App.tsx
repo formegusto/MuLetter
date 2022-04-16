@@ -10,7 +10,7 @@ function App() {
       <Routes>
         <Route path="/" element={<RootPage />}>
           <Route index element={<MainPage />} />
-          <Route path="mailbox" element={<MailBoxPage />} />
+          <Route path="mailbox/*" element={<MailBoxPage />} />
           <Route path="map" element={<MapPage />} />
         </Route>
       </Routes>
