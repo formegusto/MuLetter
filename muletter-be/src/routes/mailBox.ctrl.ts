@@ -45,11 +45,17 @@ class MailBoxRouter {
         const mailBox = await MailBoxModel.findOne({
           _id: id,
         });
-        let mail = await MailModel.find({
+        let mail: any = await MailModel.find({
           mailBoxId: id,
         })
           .sort({ createdAt: -1 })
           .limit(1);
+
+        if (mail.length === 1) {
+          mail = mail[0];
+        } else {
+          mail = null;
+        }
 
         return res.status(200).json({
           mailBox,
