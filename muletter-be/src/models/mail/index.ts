@@ -7,6 +7,7 @@ const trackSchema = new Schema<Track>({
   artistIds: { type: String, required: true },
   artistNames: { type: String, required: true },
   image: { type: String, required: true },
+  duration: { type: Number, required: true },
 });
 
 const schema = new Schema<Mail>(

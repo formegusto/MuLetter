@@ -47,7 +47,7 @@ function MainComponent({ mailCount, mailBoxCount }: Props) {
           elLetterPaper.style.transform =
             "translateY(-" +
             ((scrollY - secondScrollRate) / (maxScrollY - secondScrollRate)) *
-              200 +
+              220 +
             "px)";
         }
       }

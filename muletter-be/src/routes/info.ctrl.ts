@@ -33,7 +33,7 @@ class InfoRouter {
           else {
             randomTracks.push(randomTrack);
 
-            if (randomTracks.length === 3) break;
+            if (randomTracks.length === 4) break;
           }
         }
 

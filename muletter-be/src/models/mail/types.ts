@@ -6,6 +6,7 @@ export type Track = {
   artistIds: string;
   artistNames: string;
   image: string;
+  duration: number;
 };
 
 export type Mail = {

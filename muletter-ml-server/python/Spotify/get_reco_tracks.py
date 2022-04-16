@@ -93,6 +93,7 @@ def get_reco_tracks(self, og=None):
                 _id = track['id']
                 _name = track['name']
                 album = track['album']
+                duration_ms = track['duration_ms']
                 images = album["images"]
 
                 if len(images) == 0:
@@ -114,15 +115,15 @@ def get_reco_tracks(self, og=None):
                     ""
                 )
                 _reco_tracks = np.append(_reco_tracks,
-                                         [_id, _name, artists_id, artists, _image]
+                                         [_id, _name, artists_id,
+                                             artists, _image, duration_ms]
                                          )
-
         except:
             return res
 
-    _reco_tracks = _reco_tracks.reshape(-1, 5)
+    _reco_tracks = _reco_tracks.reshape(-1, 6)
     reco_tracks = pd.DataFrame(_reco_tracks, columns=[
-                               'trackId', 'trackName', 'artistIds', 'artistNames', 'image'])
+                               'trackId', 'trackName', 'artistIds', 'artistNames', 'image', 'duration'])
 
     # 중복제거
     except_overlap_cols = [
