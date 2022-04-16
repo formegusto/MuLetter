@@ -4,19 +4,22 @@ import styled, { css, keyframes } from "styled-components";
 import assets from "../assets";
 import { Mail, MailBox } from "../store/mailbox/types";
 import BackgroundListener from "./common/BackgroundListener";
+import { ContentTitle } from "./common/PageTitle";
 import Tracks from "./common/Tracks";
 
 type LetterProps = {
   mailBox: MailBox | null;
   mail: Mail | null;
+  setViewTitle: (state: boolean) => void;
 };
 
 const LazyMarkerImage = lazy(() => import("./MailBox/MarkerImage"));
 
-function Letter({ mailBox, mail }: LetterProps) {
+function Letter({ mailBox, mail, setViewTitle }: LetterProps) {
   const refBlock = React.useRef<HTMLDivElement>(null);
   const refMarker = React.useRef<HTMLDivElement>(null);
   const refLid = React.useRef<HTMLDivElement>(null);
+  const refFront = React.useRef<HTMLDivElement>(null);
 
   const [blockStart, setBlockStart] = React.useState<boolean>(false);
   const [paperStart, setPaperStart] = React.useState<boolean>(false);
@@ -36,10 +39,15 @@ function Letter({ mailBox, mail }: LetterProps) {
 
           refBlock.current.style.transform =
             "translateY(" + _translateY + "px)";
+          refBlock.current.style.transition = "0.35s";
+
+          refBlock.current.ontransitionend = (e) => {
+            setViewTitle(true);
+          };
         }
       }
     }
-  }, [blockStart]);
+  }, [blockStart, setViewTitle]);
 
   // marker animation listen
   React.useEffect(() => {
@@ -77,12 +85,11 @@ function Letter({ mailBox, mail }: LetterProps) {
       )}
       <LetterBlock ref={refBlock}>
         <LetterBack />
-
         <LetterPaper className="letter-paper" paperStart={paperStart}>
           {mail && <Tracks tracks={mail.tracks} />}
         </LetterPaper>
 
-        <LetterFront className="letter-front" lidStart={lidStart}>
+        <LetterFront ref={refFront} className="letter-front">
           <img src={assets.Item.LetterFrontx3} alt="Letter Front" />
         </LetterFront>
 
@@ -107,18 +114,11 @@ function Letter({ mailBox, mail }: LetterProps) {
 const AniPaper = keyframes`
   0% {
     transform: scaleY(0);
-    z-index: 2;
+    z-index: 1;
   }
   100% {
     transform: scaleY(1);
     z-index: 2;
-  }
-`;
-const AniFront = keyframes`
-  0% {
-    z-index: 0;
-  } 100% {
-    z-index: 3;
   }
 `;
 
@@ -150,6 +150,7 @@ const ImageMarker = styled(Box)<{ markerStart: boolean }>`
   top: calc(493.33px / 2 - 56px) !important;
   left: calc(740px / 2 - 32px) !important;
   transform-origin: 50% 50%;
+  z-index: 1;
   ${(props) =>
     props.markerStart &&
     css`
@@ -178,9 +179,11 @@ const ImageMarker = styled(Box)<{ markerStart: boolean }>`
 
 const LetterBlock = styled.div`
   position: relative;
+
   width: 740px;
   height: 493.33px;
-  transition: 0.35s;
+
+  transform: translateY(-64px);
 
   & > div:not(.letter-paper) {
     position: absolute;
@@ -199,10 +202,11 @@ const LetterLid = styled.div<{ lidStart: boolean }>`
   height: calc(493.33px / 2) !important;
 
   transform-origin: 0% 0%;
+  z-index: 1;
   ${(props) =>
     props.lidStart &&
     css`
-      animation: ${AniLid} 0.75s linear forwards;
+      animation: ${AniLid} 0.4s ease-in forwards;
     `}
 
   & > img {
@@ -210,17 +214,12 @@ const LetterLid = styled.div<{ lidStart: boolean }>`
   }
 `;
 
-const LetterFront = styled.div<{ lidStart: boolean }>`
+const LetterFront = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
   perspective: 500px;
-
-  ${(props) =>
-    props.lidStart &&
-    css`
-      animation: ${AniFront} 0.35s linear forwards;
-    `}
+  z-index: 1;
 
   & > img {
     filter: drop-shadow(-2px -2px 1px rgba(55, 55, 55, 0.5));
@@ -245,7 +244,7 @@ const LetterPaper = styled.div<{ paperStart: boolean }>`
   ${(props) =>
     props.paperStart &&
     css`
-      animation: ${AniPaper} 0.75s linear forwards;
+      animation: ${AniPaper} 0.65s linear forwards;
     `}
 
   border-radius: 16px !important;
@@ -265,15 +264,22 @@ type Props = {
 };
 
 function MailBoxComponent({ id, mailBox, mail }: Props) {
+  const [viewTitle, setViewTitle] = React.useState<boolean>(false);
   return (
     <>
-      {/* <ContentTitle>{id}</ContentTitle> */}
+      {viewTitle ? (
+        <ContentTitle position="relative" zIndex="3">
+          {mailBox?.title}
+        </ContentTitle>
+      ) : (
+        <Box height="64px" />
+      )}
       <Flex
         height="calc(100vh - 120px)"
         justifyContent="center"
         alignItems="center"
       >
-        <Letter mail={mail} mailBox={mailBox} />
+        <Letter mail={mail} mailBox={mailBox} setViewTitle={setViewTitle} />
       </Flex>
     </>
   );

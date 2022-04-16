@@ -53,6 +53,7 @@ class MailBoxRouter {
 
         if (mail.length === 1) {
           mail = mail[0];
+          mail.tracks = mail.tracks.slice(0, 10);
         } else {
           mail = null;
         }

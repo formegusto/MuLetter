@@ -1,4 +1,4 @@
-import { Image } from "@chakra-ui/react";
+import { Box, Image } from "@chakra-ui/react";
 import React from "react";
 import styled, { keyframes } from "styled-components";
 
@@ -17,9 +17,15 @@ function BackgroundListener({ imagePath, setLidStart, setPaperStart }: Props) {
         setTimeout(() => {
           setLidStart(true);
           setTimeout(() => {
+            const elFront = document.querySelector(
+              ".letter-front"
+            ) as HTMLDivElement;
+            if (elFront) elFront.style.zIndex = "3";
+          }, 250);
+          setTimeout(() => {
             setPaperStart(true);
-          }, 500);
-        }, 500);
+          });
+        }, 1300);
       };
     }
   }, [setLidStart, setPaperStart]);
@@ -29,6 +35,14 @@ function BackgroundListener({ imagePath, setLidStart, setPaperStart }: Props) {
       <Image
         ref={refImage}
         src={`${process.env.REACT_APP_API_SERVER}${imagePath}`}
+      />
+      <Box
+        position="absolute"
+        top={0}
+        left={0}
+        background="rgba(51,51,51, 0.3)"
+        width="100%"
+        height="100%"
       />
     </Background>
   );

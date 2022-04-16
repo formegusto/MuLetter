@@ -10,49 +10,52 @@ type Props = {
 };
 
 function MainComponent({ mailCount, mailBoxCount }: Props) {
-  React.useEffect(() => {
-    window.addEventListener("scroll", () => {
-      const allScroll = document.body.scrollHeight;
-      const windowSize = window.innerHeight;
-      const scrollRate = 300;
-      const secondScrollRate = 105;
+  const scrollEvent = React.useCallback(() => {
+    const allScroll = document.body.scrollHeight;
+    const windowSize = window.innerHeight;
+    const scrollRate = 300;
+    const secondScrollRate = 105;
 
-      const maxScrollY = allScroll - windowSize;
-      const scrollY = window.scrollY;
+    const maxScrollY = allScroll - windowSize;
+    const scrollY = window.scrollY;
 
-      const elLetterLid = document.querySelector(
-        ".letter-lid"
-      ) as HTMLDivElement;
-      const elLetterFront = document.querySelector(
-        ".letter-front"
-      ) as HTMLDivElement;
-      const elLetterPaper = document.querySelector(
-        ".letter-paper"
-      ) as HTMLDivElement;
+    const elLetterLid = document.querySelector(".letter-lid") as HTMLDivElement;
+    const elLetterFront = document.querySelector(
+      ".letter-front"
+    ) as HTMLDivElement;
+    const elLetterPaper = document.querySelector(
+      ".letter-paper"
+    ) as HTMLDivElement;
 
-      if (elLetterLid && elLetterFront && elLetterPaper) {
-        if (scrollY <= scrollRate) {
-          elLetterLid.style.transform =
-            "rotateX(" + (scrollY / scrollRate) * 270 + "deg)";
-          elLetterLid.style.zIndex = "";
-          elLetterFront.style.zIndex = "";
-          elLetterPaper.style.zIndex = "";
-          elLetterPaper.style.transform = "";
-        } else {
-        }
-        if (scrollY > secondScrollRate) {
-          elLetterLid.style.zIndex = "1";
-          elLetterFront.style.zIndex = "3";
-          elLetterPaper.style.zIndex = "2";
-          elLetterPaper.style.transform =
-            "translateY(-" +
-            ((scrollY - secondScrollRate) / (maxScrollY - secondScrollRate)) *
-              200 +
-            "px)";
-        }
+    if (elLetterLid && elLetterFront && elLetterPaper) {
+      if (scrollY <= scrollRate) {
+        elLetterLid.style.transform =
+          "rotateX(" + (scrollY / scrollRate) * 270 + "deg)";
+        elLetterLid.style.zIndex = "";
+        elLetterFront.style.zIndex = "";
+        elLetterPaper.style.zIndex = "";
+        elLetterPaper.style.transform = "";
       }
-    });
+      if (scrollY > secondScrollRate) {
+        elLetterLid.style.zIndex = "1";
+        elLetterFront.style.zIndex = "3";
+        elLetterPaper.style.zIndex = "2";
+        elLetterPaper.style.transform =
+          "translateY(-" +
+          ((scrollY - secondScrollRate) / (maxScrollY - secondScrollRate)) *
+            200 +
+          "px)";
+      }
+    }
   }, []);
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", scrollEvent);
+
+    return () => {
+      window.removeEventListener("scroll", scrollEvent);
+    };
+  }, [scrollEvent]);
 
   return (
     <Flex align="center" marginTop="48px" direction="column" height="1400px">

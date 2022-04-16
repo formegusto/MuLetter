@@ -10,7 +10,10 @@ const aniLine = keyframes`
   }
 `;
 
-export function ContentTitle({ children }: React.PropsWithChildren<any>) {
+export function ContentTitle({
+  children,
+  ...props
+}: React.PropsWithChildren<any>) {
   const refTitle = React.useRef<HTMLHeadingElement>(null);
   const [lineWidth, setLineWidth] = React.useState<number | null>(null);
 
@@ -23,7 +26,13 @@ export function ContentTitle({ children }: React.PropsWithChildren<any>) {
   }, []);
 
   return (
-    <Flex position="relative" color="white" height="64px" alignItems="center">
+    <Flex
+      position="relative"
+      color="white"
+      height="64px"
+      alignItems="center"
+      {...props}
+    >
       <Text
         ref={refTitle}
         as="h1"
