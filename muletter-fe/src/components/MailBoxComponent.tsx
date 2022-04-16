@@ -3,6 +3,7 @@ import React, { lazy, Suspense } from "react";
 import styled, { css, keyframes } from "styled-components";
 import assets from "../assets";
 import { Mail, MailBox } from "../store/mailbox/types";
+import BackgroundListener from "./common/BackgroundListener";
 
 type LetterProps = {
   mailBox: MailBox | null;
@@ -12,32 +13,58 @@ type LetterProps = {
 const LazyMarkerImage = lazy(() => import("./MailBox/MarkerImage"));
 
 function Letter({ mailBox, mail }: LetterProps) {
+  const refMarker = React.useRef<HTMLDivElement>(null);
+  const [paperStart, setPaperStart] = React.useState<boolean>(false);
+  const [lidStart, setLidStart] = React.useState<boolean>(false);
+  const [backLoading, setBackLoading] = React.useState<boolean>(false);
   const [markerStart, setMarkerStart] = React.useState<boolean>(false);
+  const [markerLoading, setMarkerLoading] = React.useState<boolean>(false);
+
+  // marker animation listen
+  React.useEffect(() => {
+    if (refMarker && refMarker.current) {
+      refMarker.current.onanimationend = (e) => {
+        setBackLoading(true);
+      };
+    }
+  }, [markerLoading]);
 
   // 시작점
   React.useEffect(() => {
-    setTimeout(() => {
-      setMarkerStart(true);
-    }, 1000);
-  }, []);
+    if (markerLoading) {
+      setTimeout(() => {
+        setMarkerStart(true);
+      }, 1000);
+    }
+  }, [markerLoading]);
 
   return (
     <LetterBlock>
+      {backLoading && (
+        <BackgroundListener
+          imagePath={mailBox?.imagePath}
+          setLidStart={setLidStart}
+          setPaperStart={setPaperStart}
+        />
+      )}
       <LetterBack />
 
-      <LetterPaper className="letter-paper" />
+      <LetterPaper className="letter-paper" paperStart={paperStart} />
 
-      <LetterFront className="letter-front">
+      <LetterFront className="letter-front" lidStart={lidStart}>
         <img src={assets.Item.LetterFrontx3} alt="Letter Front" />
       </LetterFront>
 
-      <LetterLid className="letter-lid">
+      <LetterLid className="letter-lid" lidStart={lidStart}>
         <img src={assets.Item.LetterLidReversex3} alt="Letter Lid" />
       </LetterLid>
 
       <Suspense fallback={<></>}>
-        <ImageMarker markerStart={markerStart}>
-          <LazyMarkerImage src={mailBox?.imagePath} />
+        <ImageMarker markerStart={markerStart} ref={refMarker}>
+          <LazyMarkerImage
+            src={mailBox?.imagePath}
+            setMarkerLoading={setMarkerLoading}
+          />
           <Box />
         </ImageMarker>
       </Suspense>
@@ -45,13 +72,45 @@ function Letter({ mailBox, mail }: LetterProps) {
   );
 }
 
+const AniPaper = keyframes`
+  0% {
+    transform: translateY(0px);
+    z-index: 2;
+  }
+  100% {
+    transform: translateY(-145px);
+    z-index: 2;
+  }
+`;
+const AniFront = keyframes`
+  0% {
+    z-index: 0;
+  } 100% {
+    z-index: 3;
+  }
+`;
+
 const AniImageMarker = keyframes`
   0% {
     transform: translate(0);
     opacity: 1;
-  } 100% {
-    transform: translateZ(2px) translateX(6px) translateY(-45px) rotateY(45deg);
+  } 60% {
     opacity: 0;
+  } 100% {
+    transform: translateZ(0.1px) translateY(-64px) rotateY(45deg);
+    opacity: 0;
+  }
+`;
+
+const AniLid = keyframes`
+  0% {
+    transform: rotateX(0);
+    
+  } 50% {
+    z-index: 1;
+  } 100% {
+    z-index: 1;
+    transform: rotateX(270deg);
   }
 `;
 
@@ -63,7 +122,7 @@ const ImageMarker = styled(Box)<{ markerStart: boolean }>`
   ${(props) =>
     props.markerStart &&
     css`
-      animation: ${AniImageMarker} 1.25s linear forwards;
+      animation: ${AniImageMarker} 0.85s linear forwards;
     `}
 
   & > * {
@@ -104,38 +163,49 @@ const LetterBlock = styled.div`
   }
 `;
 
-const LetterLid = styled.div`
+const LetterLid = styled.div<{ lidStart: boolean }>`
   height: calc(493.33px / 2) !important;
 
-  /* transform: rotateX(180deg); */
   transform-origin: 0% 0%;
-
-  /* z-index: 1; */
+  ${(props) =>
+    props.lidStart &&
+    css`
+      animation: ${AniLid} 0.75s linear forwards;
+    `}
 
   & > img {
     filter: drop-shadow(0px 2px 1px rgba(55, 55, 55, 0.5));
   }
 `;
 
-const LetterFront = styled.div`
+const LetterFront = styled.div<{ lidStart: boolean }>`
   display: flex;
   justify-content: center;
   position: relative;
   perspective: 500px;
 
-  /* z-index: 3; */
+  ${(props) =>
+    props.lidStart &&
+    css`
+      animation: ${AniFront} 0.35s linear forwards;
+    `}
 
   & > img {
     filter: drop-shadow(-2px -2px 1px rgba(55, 55, 55, 0.5));
   }
 `;
 
-const LetterPaper = styled.div`
+const LetterPaper = styled.div<{ paperStart: boolean }>`
   left: 10px !important;
   width: 720px !important;
   background-color: #fff;
 
   /* transform: translateY(-145px); */
+  ${(props) =>
+    props.paperStart &&
+    css`
+      animation: ${AniPaper} 0.75s linear forwards;
+    `}
 
   border-radius: 16px !important;
   /* z-index: 2; */
