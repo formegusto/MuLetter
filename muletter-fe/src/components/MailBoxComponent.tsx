@@ -1,9 +1,11 @@
-import { useParams } from "react-router-dom";
 import { ContainerMar16 } from "./common/Container";
 import { ContentTitle } from "./common/PageTitle";
 
-function MailBoxComponent() {
-  const { id } = useParams();
+type Props = {
+  id?: string;
+};
+
+function MailBoxComponent({ id }: Props) {
   return (
     <ContainerMar16>
       <ContentTitle>{id}</ContentTitle>

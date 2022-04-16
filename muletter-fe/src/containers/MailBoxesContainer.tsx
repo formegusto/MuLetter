@@ -5,10 +5,14 @@ import MailBoxConnector from "../store/mailbox/connector";
 
 type Props = ConnectedProps<typeof MailBoxConnector>;
 
-function MailBoxesContainer({ getMailBoxes, mailBoxes }: Props) {
+function MailBoxesContainer({ getMailBoxes, mailBoxes, clearStore }: Props) {
   React.useEffect(() => {
     getMailBoxes();
-  }, [getMailBoxes]);
+
+    return () => {
+      clearStore();
+    };
+  }, [getMailBoxes, clearStore]);
 
   return <MailBoxesComponent mailBoxes={mailBoxes} />;
 }

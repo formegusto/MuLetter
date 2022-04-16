@@ -33,7 +33,7 @@ class MailBoxRouter {
         const mailBox = await MailBoxModel.find({}).sort({ updatedAt: -1 });
 
         return res.status(200).json({
-          mailBox,
+          mailBoxes: mailBox,
         });
       }
     );

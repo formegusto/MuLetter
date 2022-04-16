@@ -1,3 +1,5 @@
+import { Mail } from "../mail/types";
+
 export type Track = {
   trackId: string;
   trackName: string;
@@ -18,4 +20,5 @@ export type MailBox = {
   coord?: Coord;
   createdAt: string;
   updatedAt: string;
+  mail?: Mail;
 };
