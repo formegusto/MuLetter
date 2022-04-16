@@ -17,9 +17,13 @@ class InfoRouter {
         const mailCount = await MailModel.countDocuments();
         const mailBoxCount = await MailBoxModel.countDocuments();
 
+        let randomMail: any = await MailModel.find({});
+        randomMail = randomMail[Math.floor(Math.random() * randomMail.length)];
+
         return res.status(200).json({
           mailCount,
           mailBoxCount,
+          randomMail,
         });
       }
     );
