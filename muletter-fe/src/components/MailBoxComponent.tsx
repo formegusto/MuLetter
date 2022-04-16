@@ -97,7 +97,7 @@ const AniImageMarker = keyframes`
   } 60% {
     opacity: 0;
   } 100% {
-    transform: translateZ(0.1px) translateY(-64px) rotateY(45deg);
+    transform: translateY(-95px) rotateY(75deg);
     opacity: 0;
   }
 `;

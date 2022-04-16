@@ -1,12 +1,19 @@
+import { ConnectedProps } from "react-redux";
 import styled from "styled-components";
 import assets from "../../assets";
+import InfoConnector from "../../store/info/connector";
+import Tracks from "../common/Tracks";
 
-function Letter() {
+type Props = ConnectedProps<typeof InfoConnector>;
+
+function Letter({ randomTracks }: Props) {
   return (
     <LetterBlock>
       <LetterBack />
 
-      <LetterPaper className="letter-paper" />
+      <LetterPaper className="letter-paper">
+        {randomTracks && <Tracks tracks={randomTracks} />}
+      </LetterPaper>
 
       <LetterFront className="letter-front">
         <img src={assets.Item.LetterFrontx3} alt="Letter Front" />
@@ -83,4 +90,4 @@ const LetterBack = styled.div`
   background-color: #eee;
 `;
 
-export default Letter;
+export default InfoConnector(Letter);

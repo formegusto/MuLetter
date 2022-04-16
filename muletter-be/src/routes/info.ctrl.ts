@@ -1,5 +1,6 @@
 import Express from "express";
 import MailModel from "../models/mail";
+import { Track } from "../models/mail/types";
 import MailBoxModel from "../models/mailBox";
 
 class InfoRouter {
@@ -20,10 +21,26 @@ class InfoRouter {
         let randomMail: any = await MailModel.find({});
         randomMail = randomMail[Math.floor(Math.random() * randomMail.length)];
 
+        const tracks = randomMail.tracks;
+        let randomTracks: Track[] = [];
+        while (true) {
+          const randomTrack = tracks[Math.floor(Math.random() * tracks.length)];
+          const check = randomTracks.filter(
+            (track) => track.trackId === randomTrack.trackId
+          );
+
+          if (check.length === 1) continue;
+          else {
+            randomTracks.push(randomTrack);
+
+            if (randomTracks.length === 3) break;
+          }
+        }
+
         return res.status(200).json({
           mailCount,
           mailBoxCount,
-          randomMail,
+          randomTracks,
         });
       }
     );
